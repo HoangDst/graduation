@@ -142,12 +142,22 @@
 <script>
   function enableMusic() {
     const audio = document.getElementById("bg-music");
-    audio.muted = false;   // bật tiếng
-    audio.play();          // phát nhạc
-    window.removeEventListener("scroll", enableMusic); // chỉ chạy 1 lần
+    audio.muted = false;
+    audio.currentTime = 3.5; // bỏ qua 2s đầu
+    audio.play().then(() => {
+      console.log("Nhạc phát thành công");
+      // chỉ remove nếu play thành công
+      window.removeEventListener("scroll", enableMusic);
+      window.removeEventListener("click", enableMusic);
+    }).catch(err => {
+      console.log("Trình duyệt chặn phát:", err);
+    });
   }
+
   window.addEventListener("scroll", enableMusic);
+  window.addEventListener("click", enableMusic);
 </script>
+
   <canvas id="fireworks" width="1528" height="176"></canvas>
 
   <div class="content">
